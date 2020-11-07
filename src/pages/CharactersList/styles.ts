@@ -8,7 +8,7 @@ export const Loader = styled.div`
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #151515; /* Blue */
     border-radius: 50%;
-    margin-left: 360px;
+    margin-left: 300px;
     margin-top:  30px;
     width: 50px;
     height: 50px;
@@ -26,6 +26,7 @@ export const Title = styled.h1`
   font-size: 48px;
   color: #FFFFFF;
   background-color: #151515;
+  border-left: 5px solid red;
   padding: 10px;
   border-radius: 5px;
   max-width: 450px;
@@ -44,6 +45,7 @@ export const Error = styled.span`
 export const Characters = styled.div`
   margin-top: 20px;
   max-width: 700px;
+  border-left: 5px solid red;
 
   a {
     background: #151515;
@@ -114,5 +116,10 @@ export const Pagination = styled.div`
     padding: 10px;
     border-radius: 5px;
     font-weight: bold;
+    &:hover {
+      color: #E72023;
+    }
   }
+
+
 `

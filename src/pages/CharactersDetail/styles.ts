@@ -19,7 +19,7 @@ export const Header = styled.header`
     transition: color 0.2s;
 
     &:hover {
-      color: #666;
+      color: #E72023;
     }
 
     svg {

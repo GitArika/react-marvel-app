@@ -1,72 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React  from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import api from '../../services/api';
-import md5 from 'md5'
-
-import ApiContants from '../../constants/apiConstants';
 
 import { Header, Title, Characters, Pagination, Loader } from './styles';
 
-
-interface Character {
-  id: number,
-  name: string;
-  description: string;
-  thumbnail: {
-    path: string,
-    extension: string
-  };
-}
+import { useCharacterContext } from '../../hooks/characters'
 
 const CharactersList: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [characters, setCharacters] = useState<Character[]>(() => {
-    return [];
-  });
-
-  function nextPage() {
-    setPage(page + 1);
-  }
-
-  function previousPage() {
-    setPage(page - 1);
-  }
-
-  function getLimitOffset(): number {
-    if(page === 1 )
-      return 1;
-    
-    return  (page - 1) * 5  + 1;
-  }
-  async function loadData(): Promise<void> {
-    setLoading(true);
-    try {
-      const response = await api.get('/characters', {
-        params: {
-          orderBy: 'name',
-          limit: 5,
-          offset: getLimitOffset(),
-          apikey: ApiContants.public_key,
-          ts: 1,
-          hash: md5(ApiContants.secret),
-  
-        }
-      });
-  
-      setCharacters(response.data.data.results);
-    } catch(err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-
-  }
-
-  useEffect(() => {
-    loadData();
-  }, [page]);
+  const {characters, loading, nextPage, previousPage, page} = useCharacterContext();
 
   return (
     <>
@@ -74,13 +15,17 @@ const CharactersList: React.FC = () => {
 
       </Link>
       <Header>
-        <Title>Universo Marvel</Title>
+        <Title>MARVEL CHARACTERS</Title>
         {loading && <Loader></Loader>}
       </Header>
 
+      <Pagination>
+        {page !== 1 && <span onClick={previousPage}>Previous</span>}
+        <span onClick={nextPage }>Next</span>
+      </Pagination>
 
       <Characters>
-        {characters?.map(character => (
+        {characters.map(character => (
           <Link
             key={character.name}
             to={`/character/${character.id}`}

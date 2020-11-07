@@ -1,49 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useRouteMatch, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import {  Link, useRouteMatch } from 'react-router-dom';
 import {  FiChevronLeft } from 'react-icons/fi';
-import md5 from 'md5'
-
-import api from '~/services/api';
-import ApiContants from '../../constants/apiConstants';
 
 import { Header, CharacterInfo } from './styles';
+import { useCharacterDetailContext } from '../../hooks/characterDetail';
 
 interface CharacterParams {
-  id: string;
-}
-
-interface Character{
-  name: string;
-  description: string;
-  thumbnail:  {
-    path: string,
-    extension: string
-  };
-  resourceURI: string
+  id: string
 }
 
 const CharactersDetail: React.FC = () => {
   const { params } = useRouteMatch<CharacterParams>();
-
-  const [character, setCharacter] = useState<Character | null>(null);
-
-
+  const { character, findCharacter } = useCharacterDetailContext();
   useEffect(() => {
-
-    async function loadData(): Promise<void> {
-      const response = await 
-        api.get(`characters/${params.id}`, {
-          params: {
-            apikey: ApiContants.public_key,
-            ts: 1,
-            hash: md5(ApiContants.secret),
-          }});
-
-      setCharacter(response.data.data.results[0]);
-    }
-
-    loadData();
-  }, [params.id]);
+    findCharacter(params.id)
+  }, [findCharacter, params.id])
 
   return (
     <>
