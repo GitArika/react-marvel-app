@@ -1,3 +1,11 @@
+# About
+
+This is a react app, that uses marvel public API to list heroes.
+
+Also, there's a logic implementation to cache all requests and do not repeat them.
+
+# Geting started
+
 ```bash
 # Install the dependencies
 yarn
